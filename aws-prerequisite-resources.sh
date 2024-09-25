@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-BUCKET_NAME="terraform-github-gitlab-tf-state-backend"
+BUCKET_NAME="terraform-github-runner-tf-state-backend"
 DYNAMODB_TABLE_NAME="terraform-state-locking-table"
 REGION="ap-south-1"
 
@@ -11,6 +11,25 @@ if aws s3api head-bucket --bucket "$BUCKET_NAME" &>/dev/null; then
 else
   aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$REGION" --create-bucket-configuration LocationConstraint="$REGION"
   aws s3api wait bucket-exists --bucket "$BUCKET_NAME"
+  aws s3api put-bucket-policy --bucket "$BUCKET_NAME" --policy '{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": "*",
+        "Action": [
+          "s3:DeleteBucket",
+          "s3:ListBucket",
+          "s3:DeleteObject",
+          "s3:ListBucketVersions"
+        ],
+        "Resource": [
+          "arn:aws:s3:::'"$BUCKET_NAME"'",
+          "arn:aws:s3:::'"$BUCKET_NAME"'/*"
+        ]
+      }
+    ]
+  }'
   aws s3api put-bucket-versioning --bucket "$BUCKET_NAME" --versioning-configuration Status=Enabled
   aws s3api put-bucket-encryption --bucket "$BUCKET_NAME" --server-side-encryption-configuration '{
     "Rules": [{

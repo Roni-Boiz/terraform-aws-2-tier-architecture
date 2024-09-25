@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Variables
-BUCKET_NAME="terraform-github-gitlab-tf-state-backend"
+BUCKET_NAME="terraform-github-runner-tf-state-backend"
 DYNAMODB_TABLE_NAME="terraform-state-locking-table"
 REGION="ap-south-1"
 
