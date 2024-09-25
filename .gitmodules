@@ -1,0 +1,6 @@
+[submodule "app/backend"]
+	path = app/backend
+	url = https://github.com/Roni-Boiz/crispy-kitchen-backend.git
+[submodule "app/frontend"]
+	path = app/frontend
+	url = https://github.com/Roni-Boiz/crispy-kitchen-frontend.git
