@@ -15,7 +15,6 @@ else
     "Statement": [
       {
         "Effect": "Allow",
-        "Principal": "*",
         "Action": [
           "s3:DeleteBucket",
           "s3:ListBucket",
