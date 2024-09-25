@@ -1,6 +1,6 @@
 variable "project_name"{}
 variable "ami" {
-    default = "ami-096ea6a12ea24a797" 
+    default = "ami-0522ab6e1ddcc7055" 
 }
 variable "cpu" {
     default = "t2.micro"
