@@ -9,8 +9,8 @@ REGION="us-east-1"
 if aws s3api head-bucket --bucket "$BUCKET_NAME" &>/dev/null; then
   echo "S3 bucket $BUCKET_NAME already exists."
 else
-  aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$REGION" --create-bucket-configuration LocationConstraint="$REGION"
-  aws s3api put-bucket-policy --bucket terraform-github-runner-tf-state-backend --policy '{
+  aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$REGION"
+  aws s3api put-bucket-policy --bucket "$BUCKET_NAME" --policy '{
     "Version": "2012-10-17",
     "Statement": [
       {
@@ -23,8 +23,8 @@ else
           "s3:ListBucketVersions"
         ],
         "Resource": [
-          "arn:aws:s3:::terraform-github-runner-tf-state-backend",
-          "arn:aws:s3:::terraform-github-runner-tf-state-backend/*"
+          "arn:aws:s3:::'"$BUCKET_NAME"'",
+          "arn:aws:s3:::'"$BUCKET_NAME"'/*"
         ]
       }
     ]
