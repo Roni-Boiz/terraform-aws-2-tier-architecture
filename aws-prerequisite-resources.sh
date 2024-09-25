@@ -15,6 +15,7 @@ else
     "Statement": [
       {
         "Effect": "Allow",
+        "Principal": "arn:aws:iam::146855485831:role/EC2-Instance-Role",
         "Action": [
           "s3:DeleteBucket",
           "s3:ListBucket",
