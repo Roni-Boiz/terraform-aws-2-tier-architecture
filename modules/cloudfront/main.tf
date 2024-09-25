@@ -1,8 +1,8 @@
 # Get the certificate from AWS ACM
-data "aws_acm_certificate" "issued" {
-  domain   = var.certificate_domain_name
-  statuses = ["ISSUED"]
-}
+# data "aws_acm_certificate" "issued" {
+#   domain   = var.certificate_domain_name
+#   statuses = ["ISSUED"]
+# }
 
 #creating Cloudfront distribution :
 resource "aws_cloudfront_distribution" "my_distribution" {
