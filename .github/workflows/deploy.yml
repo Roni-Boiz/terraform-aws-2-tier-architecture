@@ -1,11 +1,11 @@
-name: Terraform
+name: Deploy
 
 on:
   workflow_dispatch:
 
 jobs:
   setup:
-    name: Setup
+    name: Deploy
     runs-on: [self-hosted, git-workflow]
     steps:
       - name: Checkout Code
