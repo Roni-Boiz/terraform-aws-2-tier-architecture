@@ -2,8 +2,7 @@
 /**/*.tfstate*
 /**/.terraform
 
-./modules/key/client_key
-./modules/key/client_key.pub
+/modules/key/client_key
 # Local .terraform directories
 **/.terraform/*
 .terraform/*
