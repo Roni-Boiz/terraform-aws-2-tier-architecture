@@ -3,19 +3,19 @@
 # Variables
 BUCKET_NAME="terraform-github-runner-tf-state-backend"
 DYNAMODB_TABLE_NAME="terraform-state-locking-table"
-REGION="us-east-1"
+REGION="ap-south-1"
 
 # Check if S3 bucket exists
 if aws s3api head-bucket --bucket "$BUCKET_NAME" &>/dev/null; then
   echo "S3 bucket $BUCKET_NAME already exists."
 else
-  aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$REGION"
+  aws s3api create-bucket --bucket "$BUCKET_NAME" --region "$REGION" --create-bucket-configuration LocationConstraint="$REGION"
   aws s3api put-bucket-policy --bucket "$BUCKET_NAME" --policy '{
     "Version": "2012-10-17",
     "Statement": [
       {
         "Effect": "Allow",
-        "Principal": "arn:aws:iam::146855485831:role/EC2-Instance-Role",
+        "Principal": "*",
         "Action": [
           "s3:DeleteBucket",
           "s3:ListBucket",

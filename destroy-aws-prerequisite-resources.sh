@@ -3,7 +3,7 @@
 # Variables
 BUCKET_NAME="terraform-github-runner-tf-state-backend"
 DYNAMODB_TABLE_NAME="terraform-state-locking-table"
-REGION="us-east-1"
+REGION="ap-south-1"
 
 # Check if DynamoDB table exists
 if aws dynamodb describe-table --table-name "$DYNAMODB_TABLE_NAME" --region "$REGION" &>/dev/null; then
