@@ -8,6 +8,6 @@ pri_sub_4b_cidr         = "10.0.4.0/24"          # CIDR block for private subnet
 pri_sub_5a_cidr         = "10.0.5.0/24"          # CIDR block for private subnet in availability zone 5a
 pri_sub_6b_cidr         = "10.0.6.0/24"          # CIDR block for private subnet in availability zone 6b
 db_username             = "admin"                # Database username
-db_password             = "admin1234"                # Database password
+db_password             = "admin1234"            # Database password
 certificate_domain_name = "example.com"          # Domain name for SSL certificate
 additional_domain_name  = "www.example.com"      # Additional domain name for the certificate
