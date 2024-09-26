@@ -53,6 +53,7 @@ echo
 echo "########################################"
 echo "Cloning Frontend Repository"
 echo "########################################"
+sudo rm -rf ${FRONTEND_DIR}*
 sudo git clone $FRONTEND_REPO_URL $FRONTEND_DIR
 echo
 

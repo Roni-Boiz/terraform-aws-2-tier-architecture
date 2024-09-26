@@ -12,8 +12,8 @@ resource "aws_launch_template" "lt_name" {
     db_file     = var.db_file
   }))
 
-
   vpc_security_group_ids = [var.client_sg_id]
+
   tags = {
     Name = "${var.project_name}-tpl"
   }
@@ -28,7 +28,7 @@ resource "aws_autoscaling_group" "asg_name" {
   health_check_grace_period = 300
   health_check_type         = var.asg_health_check_type #"ELB" or default EC2
   vpc_zone_identifier       = [var.pri_sub_3a_id,var.pri_sub_4b_id]
-  target_group_arns         = [var.tg_arn] #var.target_group_arns
+  target_group_arns         = [var.tg_arn]
 
   enabled_metrics = [
     "GroupMinSize",
