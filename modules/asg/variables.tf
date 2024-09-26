@@ -8,13 +8,13 @@ variable "cpu" {
 variable "key_name" {}
 variable "client_sg_id" {}
 variable "max_size" {
-    default = 6
+    default = 4
 }
 variable "min_size" {
-    default = 2
+    default = 1
 }
 variable "desired_cap" {
-    default = 3
+    default = 2
 }
 variable "asg_health_check_type" {
     default = "ELB"
