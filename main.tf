@@ -59,6 +59,7 @@ module "asg" {
   db_user     = module.rds.db_username
   db_password = module.rds.db_password
   db_name     = module.rds.db_name
+  domain      = module.cloudfront.cloudfront_domain_name
 }
 
 # Create RDS instance

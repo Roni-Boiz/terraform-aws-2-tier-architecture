@@ -33,3 +33,4 @@ variable "db_name" {}
 variable "db_file" {
     default = "./modules/rds/setup.sql"
 }
+variable "domain" {}
