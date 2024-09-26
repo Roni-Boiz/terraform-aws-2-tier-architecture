@@ -18,7 +18,6 @@ SVC="apache2"
 
 # Set Site Variables
 APACHE_CONF="/etc/apache2/sites-available/myapp.conf"
-APACHE_LOG_DIR="/var/log/apache2"
 
 echo "Running Setup on Ubuntu"
 
@@ -68,7 +67,7 @@ echo "########################################"
 sudo touch $APACHE_CONF
 cat <<EOL | sudo tee $APACHE_CONF
 <VirtualHost *:80>
-    ServerName "${domain}"
+    ServerName ${domain}
 
     # Serve frontend
     DocumentRoot $FRONTEND_DIR
@@ -83,8 +82,8 @@ cat <<EOL | sudo tee $APACHE_CONF
     ProxyPass /api http://localhost:3000/
     ProxyPassReverse /api http://localhost:3000/
 
-    ErrorLog $APACHE_LOG_DIR/myapp_error.log
-    CustomLog $APACHE_LOG_DIR/myapp_access.log combined
+    ErrorLog /var/log/apache2/myapp_error.log
+    CustomLog /var/log/apache2/myapp_access.log combined
 </VirtualHost>
 EOL
 
