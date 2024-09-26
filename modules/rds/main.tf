@@ -33,7 +33,7 @@ resource "null_resource" "setup_db" {
 
   provisioner "local-exec" {
     command = <<EOL
-      mysql -h ${aws_db_instance.db.address} -u ${var.db_username} -p ${var.db_password} < ./modules/rds/setup.sql
+      sudo mysql -h ${aws_db_instance.db.endpoint} -u ${var.db_username} -p ${var.db_password} < ./modules/rds/setup.sql
     EOL
   }
 }
