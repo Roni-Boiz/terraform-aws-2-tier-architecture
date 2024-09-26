@@ -67,7 +67,7 @@ echo "########################################"
 sudo touch $APACHE_CONF
 cat <<EOL | sudo tee $APACHE_CONF
 <VirtualHost *:80>
-    ServerName $domain
+    ServerName ${domain}
 
     # Serve frontend
     DocumentRoot $FRONTEND_DIR
@@ -119,7 +119,7 @@ echo
 echo "########################################"
 echo "Installing Backend Dependencies"
 echo "########################################"
-npm install
+sudo npm install
 echo
 
 # Set environment variables for the database
@@ -136,7 +136,7 @@ export DB_NAME="${db_name}"
 echo "########################################"
 echo "Starting Backend Server"
 echo "########################################"
-nohup npm start > backend.log 2>&1 &
+sudo nohup npm start &
 echo
 
 # Clean Up
