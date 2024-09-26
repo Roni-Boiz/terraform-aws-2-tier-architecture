@@ -41,7 +41,9 @@ jobs:
 
       - name: Terraform Apply
         id: apply
-        run: terraform apply -auto-approve
+        run: |
+          terraform apply -auto-approve
+          echo "TF_OUT_APPLICATION_URL=$(terraform output -raw cloudfront_distribution_domain_name)" >> $GITHUB_ENV
     
       - name: Send a Slack Notification
         if: always()
@@ -50,5 +52,8 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#github-actions'
+          text: |
+            Deployment Status: ${{ job.status }}
+            CloudFront Domain: ${{ env.TF_OUT_APPLICATION_URL }}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
