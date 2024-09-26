@@ -76,3 +76,34 @@ jobs:
       - name: Verify AWS CLI Installation
         if: env.aws_installed == 'true'
         run: aws --version
+
+  install-mysql:
+    runs-on: [self-hosted, git-workflow]
+    steps:
+      - name: Check if MySQL is already installed
+        id: check-mysql
+        run: |
+          if command -v mysql &> /dev/null; then
+            echo "MySQL is already installed."
+            echo "mysql_installed=true" >> $GITHUB_ENV
+          else
+            echo "mysql_installed=false" >> $GITHUB_ENV
+          fi
+        shell: bash
+
+      - name: Prevent Re-run if MySQL is Installed
+        if: env.mysql_installed == 'true'
+        run: exit 0
+
+      - name: Install MySQL
+        if: env.mysql_installed == 'false'
+        run: |
+          sudo apt update
+          sudo apt install mysql-server -y
+          sudo systemctl start mysql.service
+          echo "mysql_installed=true" >> $GITHUB_ENV
+          echo "MySQL installed successfully!"
+
+      - name: Verify MySQL Installation
+        if: env.mysql_installed == 'true'
+        run: mysql -V
