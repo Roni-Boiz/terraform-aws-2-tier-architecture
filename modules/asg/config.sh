@@ -16,11 +16,14 @@ NODE_VERSION="20.x"
 PACKAGE="apache2 wget unzip curl git mysql-server"
 SVC="apache2"
 
+# Set Site Variables
+APACHE_CONF="/etc/apache2/sites-available/myapp.conf"
+
 echo "Running Setup on Ubuntu"
 
 # Installing Dependencies
 echo "########################################"
-echo "Installing packages."
+echo "Installing Packages"
 echo "########################################"
 sudo apt update
 sudo apt install $PACKAGE -y > /dev/null
@@ -30,8 +33,8 @@ echo
 echo "########################################"
 echo "Installing Node.js"
 echo "########################################"
-curl -sL https://deb.nodesource.com/setup_$NODE_VERSION -o nodesource_setup.sh
-sudo bash nodesource_setup.sh
+curl -sL https://deb.nodesource.com/setup_$NODE_VERSION -o /tmp/nodesource_setup.sh
+sudo bash /tmp/nodesource_setup.sh
 sudo apt install -y nodejs
 echo
 
@@ -57,7 +60,46 @@ sudo rm -rf $FRONTEND_DIR*
 sudo git clone $FRONTEND_REPO_URL $FRONTEND_DIR
 echo
 
-# Bounce Service
+# Create Apache Configuration
+echo "########################################"
+echo "Creating Apache configuration"
+echo "########################################"
+cat <<EOL | sudo tee $APACHE_CONF
+<VirtualHost *:80>
+    ServerName "${domain}"
+
+    # Serve frontend
+    DocumentRoot $FRONTEND_DIR
+
+    <Directory $FRONTEND_DIR>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    # Proxy configuration for backend
+    ProxyPass /api http://localhost:3000/
+    ProxyPassReverse /api http://localhost:3000/
+
+    ErrorLog \${APACHE_LOG_DIR}/myapp_error.log
+    CustomLog \${APACHE_LOG_DIR}/myapp_access.log combined
+</VirtualHost>
+EOL
+
+# Enable Required Apache Modules
+echo "########################################"
+echo "Enabling Apache modules"
+echo "########################################"
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+
+# Enable the New Site Configuration
+echo "########################################"
+echo "Enabling the new site configuration"
+echo "########################################"
+sudo a2ensite myapp.conf
+
+# Restart Apache to Apply Changes
 echo "########################################"
 echo "Restarting HTTPD service"
 echo "########################################"
