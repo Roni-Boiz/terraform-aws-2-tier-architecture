@@ -15,7 +15,7 @@ resource "aws_db_instance" "db" {
   multi_az                = true
   storage_type            = "gp2"
   storage_encrypted       = false
-  publicly_accessible     = true
+  publicly_accessible     = false
   skip_final_snapshot     = true
   backup_retention_period = 0
 
