@@ -18,6 +18,7 @@ SVC="apache2"
 
 # Set Site Variables
 APACHE_CONF="/etc/apache2/sites-available/myapp.conf"
+APACHE_LOG_DIR="/var/log/apache2"
 
 echo "Running Setup on Ubuntu"
 
