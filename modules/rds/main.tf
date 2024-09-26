@@ -15,7 +15,7 @@ resource "aws_db_instance" "db" {
   multi_az                = true
   storage_type            = "gp2"
   storage_encrypted       = false
-  publicly_accessible     = false
+  publicly_accessible     = true
   skip_final_snapshot     = true
   backup_retention_period = 0
 
@@ -33,7 +33,7 @@ resource "null_resource" "setup_db" {
 
   provisioner "local-exec" {
     command = <<EOL
-      sudo mysql -h ${aws_db_instance.db.endpoint} -u ${var.db_username} -p ${var.db_password} < ./modules/rds/setup.sql
+      sudo mysql -h ${aws_db_instance.db.address} -u ${var.db_username} -p${var.db_password} < ./modules/rds/setup.sql
     EOL
   }
 }

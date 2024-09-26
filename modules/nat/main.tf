@@ -53,7 +53,7 @@ resource "aws_route_table" "pri-rt-a" {
   }
 
   tags   = {
-    Name = "Pri-rt-a"
+    Name = "pri-rt-a"
   }
 }
 
