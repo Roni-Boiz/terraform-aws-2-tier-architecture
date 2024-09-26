@@ -28,12 +28,12 @@ resource "aws_db_instance" "db" {
   }
 }
 
-resource "null_resource" "setup_db" {
-  depends_on = [aws_db_instance.db]
+# resource "null_resource" "setup_db" {
+#   depends_on = [aws_db_instance.db]
 
-  provisioner "local-exec" {
-    command = <<EOL
-      sudo mysql -h ${aws_db_instance.db.address} -u ${var.db_username} -p${var.db_password} < ./modules/rds/setup.sql
-    EOL
-  }
-}
+#   provisioner "local-exec" {
+#     command = <<EOL
+#       sudo mysql -h ${aws_db_instance.db.address} -u ${var.db_username} -p${var.db_password} < ./modules/rds/setup.sql
+#     EOL
+#   }
+# }

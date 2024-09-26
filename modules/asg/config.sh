@@ -13,7 +13,7 @@ BACKEND_DIR="/var/www/backend/"
 NODE_VERSION="14.x"
 
 # Set Variables for Ubuntu
-PACKAGE="apache2 wget unzip curl"
+PACKAGE="apache2 wget unzip curl mysql-server"
 SVC="apache2"
 
 echo "Running Setup on Ubuntu"
@@ -34,6 +34,12 @@ curl -sL https://deb.nodesource.com/setup_$NODE_VERSION -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 sudo apt install -y nodejs
 echo
+
+# Create Data Tables
+echo "########################################"
+echo "Create Data Tables"
+echo "########################################"
+sudo mysql -h "${db_host}" -u "${db_user}" -p"${db_password}" < "${db_file}"
 
 # Start & Enable Service
 echo "########################################"
@@ -73,7 +79,11 @@ npm install
 echo
 
 # Set environment variables for the database
+echo "########################################"
+echo "Export Environment Variables"
+echo "########################################"
 export DB_HOST="${db_host}"
+export DB_PORT="${db_port}"
 export DB_USER="${db_user}"
 export DB_PASSWORD="${db_password}"
 export DB_NAME="${db_name}"

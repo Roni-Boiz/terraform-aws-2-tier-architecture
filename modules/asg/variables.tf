@@ -30,3 +30,6 @@ variable "db_port" {
 variable "db_user" {}
 variable "db_password" {}
 variable "db_name" {}
+variable "db_file" {
+    default = "./modules/rds/setup.sql"
+}
