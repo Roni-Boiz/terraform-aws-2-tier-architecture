@@ -52,6 +52,6 @@ jobs:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
           channel: '#github-actions'
-          text: "CloudFront Domain: ${{ env.TF_OUT_APPLICATION_URL }}"
+          message: "CloudFront Domain: ${{ env.TF_OUT_APPLICATION_URL }}"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
