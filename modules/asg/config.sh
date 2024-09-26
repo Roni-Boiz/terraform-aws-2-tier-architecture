@@ -83,8 +83,8 @@ cat <<EOL | sudo tee $APACHE_CONF
     ProxyPass /api http://localhost:3000/
     ProxyPassReverse /api http://localhost:3000/
 
-    ErrorLog \$APACHE_LOG_DIR/myapp_error.log
-    CustomLog \$APACHE_LOG_DIR/myapp_access.log combined
+    ErrorLog $APACHE_LOG_DIR/myapp_error.log
+    CustomLog $APACHE_LOG_DIR/myapp_access.log combined
 </VirtualHost>
 EOL
 
