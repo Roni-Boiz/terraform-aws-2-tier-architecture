@@ -65,6 +65,7 @@ echo
 echo "########################################"
 echo "Creating Apache configuration"
 echo "########################################"
+sudo touch $APACHE_CONF
 cat <<EOL | sudo tee $APACHE_CONF
 <VirtualHost *:80>
     ServerName "${domain}"
