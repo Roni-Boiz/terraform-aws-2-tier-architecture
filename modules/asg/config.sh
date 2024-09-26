@@ -67,7 +67,7 @@ echo "########################################"
 sudo touch $APACHE_CONF
 cat <<EOL | sudo tee $APACHE_CONF
 <VirtualHost *:80>
-    ServerName ${domain}
+    ServerName $domain
 
     # Serve frontend
     DocumentRoot $FRONTEND_DIR
