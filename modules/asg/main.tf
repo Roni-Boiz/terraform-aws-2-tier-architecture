@@ -9,7 +9,7 @@ resource "aws_launch_template" "lt_name" {
     db_user     = var.db_user,
     db_password = var.db_password,
     db_name     = var.db_name,
-    db_file     = var.db_file
+    db_file     = filebase64(var.db_file)
   }))
 
   vpc_security_group_ids = [var.client_sg_id]

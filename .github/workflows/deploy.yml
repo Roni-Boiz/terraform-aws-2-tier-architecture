@@ -1,6 +1,11 @@
 name: Deploy
 
 on:
+  workflow_run:
+    workflows: ["Script"]
+    types:
+      - completed
+    status: success
   workflow_dispatch:
 
 jobs:
