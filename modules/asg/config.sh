@@ -10,10 +10,10 @@ BACKEND_ART_NAME="crispy-kitchen-backend"
 BACKEND_DIR="/var/www/backend/"
 
 # Set your desired Node.js version
-NODE_VERSION="14.x"
+NODE_VERSION="20.x"
 
 # Set Variables for Ubuntu
-PACKAGE="apache2 wget unzip curl mysql-server"
+PACKAGE="apache2 wget unzip curl git mysql-server"
 SVC="apache2"
 
 echo "Running Setup on Ubuntu"
