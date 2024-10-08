@@ -10,6 +10,7 @@ resource "aws_launch_template" "lt_name" {
     db_password = var.db_password,
     db_name     = var.db_name,
     domain      = var.domain,
+    server_port = var.server_port,
     db_file     = filebase64(var.db_file)
   }))
 

@@ -34,3 +34,6 @@ variable "db_file" {
     default = "./modules/rds/setup.sql"
 }
 variable "domain" {}
+variable "server_port" {
+    default = 3000
+}

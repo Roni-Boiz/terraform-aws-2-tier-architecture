@@ -11,3 +11,4 @@ db_username             = "admin"                # Database username
 db_password             = "admin1234"            # Database password
 certificate_domain_name = "example.com"          # Domain name for SSL certificate
 additional_domain_name  = "www.example.com"      # Additional domain name for the certificate
+backend_service_port    = "3000"                 # Define port for backend services

@@ -8,7 +8,7 @@ FRONTEND_DIR="/var/www/html/"
 BACKEND_REPO_URL='https://github.com/Roni-Boiz/crispy-kitchen-backend.git'
 BACKEND_ART_NAME="crispy-kitchen-backend"
 BACKEND_DIR="/var/www/backend/"
-BACKEND_SVC_PORT="3000"
+BACKEND_SVC_PORT="${server_port}"
 
 # Set your desired Node.js version
 NODE_VERSION="20.x"
@@ -147,7 +147,7 @@ export DB_PORT="${db_port}"
 export DB_USER="${db_user}"
 export DB_PASSWORD="${db_password}"
 export DB_NAME="${db_name}"
-export PORT="${BACKEND_SVC_PORT}"
+export PORT="${server_port}"
 
 # Start Backend Server
 echo "########################################"

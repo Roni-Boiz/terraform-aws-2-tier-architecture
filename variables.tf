@@ -11,3 +11,4 @@ variable "db_username" {}
 variable "db_password" {}
 variable "certificate_domain_name" {}
 variable "additional_domain_name" {}
+variable "backend_service_port" {}

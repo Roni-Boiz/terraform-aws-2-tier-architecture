@@ -59,6 +59,7 @@ module "asg" {
   db_user     = module.rds.db_username
   db_password = module.rds.db_password
   db_name     = module.rds.db_name
+  server_port = var.backend_service_port
   domain      = module.cloudfront.cloudfront_domain_name
 }
 
