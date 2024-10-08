@@ -8,6 +8,7 @@ FRONTEND_DIR="/var/www/html/"
 BACKEND_REPO_URL='https://github.com/Roni-Boiz/crispy-kitchen-backend.git'
 BACKEND_ART_NAME="crispy-kitchen-backend"
 BACKEND_DIR="/var/www/backend/"
+BACKEND_SVC_PORT="3000"
 
 # Set your desired Node.js version
 NODE_VERSION="20.x"
@@ -60,50 +61,64 @@ sudo rm -rf $FRONTEND_DIR*
 sudo git clone $FRONTEND_REPO_URL $FRONTEND_DIR
 echo
 
-# Create Apache Configuration
-echo "########################################"
-echo "Creating Apache configuration"
-echo "########################################"
-sudo touch $APACHE_CONF
-cat <<EOL | sudo tee $APACHE_CONF
-<VirtualHost *:80>
-    ServerName ${domain}
-
-    # Serve frontend
-    DocumentRoot $FRONTEND_DIR
-
-    <Directory $FRONTEND_DIR>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-    </Directory>
-
-    # Proxy configuration for backend
-    ProxyPass /api http://localhost:3000/
-    ProxyPassReverse /api http://localhost:3000/
-
-    ErrorLog /var/log/apache2/myapp_error.log
-    CustomLog /var/log/apache2/myapp_access.log combined
-</VirtualHost>
-EOL
-
 # Enable Required Apache Modules
 echo "########################################"
 echo "Enabling Apache modules"
 echo "########################################"
 sudo a2enmod proxy
 sudo a2enmod proxy_http
+sudo systemctl restart $SVC
+
+# Create Apache Configuration
+echo "########################################"
+echo "Creating Apache configuration"
+echo "########################################"
+sudo touch $APACHE_CONF
+sudo touch /var/log/apache2/myapp_error.log
+sudo touch /var/log/apache2/myapp_access.log
+cat <<EOL | sudo tee $APACHE_CONF
+<VirtualHost *:80>
+    ServerName ${domain}
+    ServerAlias www.${domain}
+
+    # Serve frontend
+    DocumentRoot $FRONTEND_DIR
+
+    <Directory $FRONTEND_DIR>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ProxyRequests Off
+    ProxyPreserveHost Off
+    ProxyVia Full
+
+    # Proxy configuration for backend
+    ProxyPass /api http://localhost:$BACKEND_SVC_PORT
+    ProxyPassReverse /api http://localhost:$BACKEND_SVC_PORT
+
+    <Location /api/>
+        Require all granted
+    </Location>
+
+    ErrorLog /var/log/apache2/myapp_error.log
+    CustomLog /var/log/apache2/myapp_access.log combined
+</VirtualHost>
+EOL
 
 # Enable the New Site Configuration
 echo "########################################"
 echo "Enabling the new site configuration"
 echo "########################################"
+sudo apachectl configtest
 sudo a2ensite myapp.conf
 
 # Restart Apache to Apply Changes
 echo "########################################"
 echo "Restarting HTTPD service"
 echo "########################################"
+sudo systemctl reload $SVC
 sudo systemctl restart $SVC
 echo
 
@@ -120,6 +135,7 @@ echo "########################################"
 echo "Installing Backend Dependencies"
 echo "########################################"
 sudo npm install
+sudo npm install -g pm2
 echo
 
 # Set environment variables for the database
@@ -131,12 +147,15 @@ export DB_PORT="${db_port}"
 export DB_USER="${db_user}"
 export DB_PASSWORD="${db_password}"
 export DB_NAME="${db_name}"
+export PORT="${BACKEND_SVC_PORT}"
 
 # Start Backend Server
 echo "########################################"
 echo "Starting Backend Server"
 echo "########################################"
-sudo nohup npm start &
+pm2 start server.js --name "backend" -- start
+pm2 save
+pm2 startup
 echo
 
 # Clean Up
