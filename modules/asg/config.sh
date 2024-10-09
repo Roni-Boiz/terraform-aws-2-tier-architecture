@@ -43,7 +43,8 @@ echo
 echo "########################################"
 echo "Create Data Tables"
 echo "########################################"
-sudo mysql -h "${db_host}" -u "${db_user}" -p"${db_password}" < "${db_file}"
+echo "${db_file}" | base64 --decode > decoded_script.sql
+sudo mysql -h "${db_host}" -u "${db_user}" -p"${db_password}" < decoded_script.sql
 
 # Start & Enable Service
 echo "########################################"
