@@ -35,6 +35,20 @@ resource "aws_lb_target_group" "alb_target_group" {
   }
 }
 
+# create a listener on port 443 with forward action
+resource "aws_lb_listener" "alb_https_listener" {
+  load_balancer_arn = aws_lb.application_load_balancer.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  # certificate_arn   = var.acm_certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.alb_target_group.arn
+  }
+}
+
 # create a listener on port 80 with redirect action
 resource "aws_lb_listener" "alb_http_listener" {
   load_balancer_arn = aws_lb.application_load_balancer.arn
@@ -42,7 +56,12 @@ resource "aws_lb_listener" "alb_http_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.alb_target_group.arn
+    type = "redirect"
+
+    redirect {
+      protocol    = "HTTPS"
+      port        = "443"
+      status_code = "HTTP_301"
+    }
   }
 }
