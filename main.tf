@@ -54,33 +54,32 @@ module "asg" {
   pri_sub_4b_id = module.vpc.pri_sub_4b_id
   tg_arn        = module.alb.tg_arn
 
-  # db_host     = module.rds.db_host
-  # db_port     = module.rds.db_port
-  # db_user     = module.rds.db_username
-  # db_password = module.rds.db_password
-  # db_name     = module.rds.db_name
-  # server_port = var.backend_service_port
-  # domain      = module.cloudfront.cloudfront_domain_name
-
-  db_host     = "43.205.240.124"
-  db_port     = "3306"
-  db_user     = "root"
-  db_password = "Admin@1234"
-  db_name     = "foodshop"
+  db_host     = module.rds.db_host
+  db_port     = module.rds.db_port
+  db_user     = module.rds.db_username
+  db_password = module.rds.db_password
+  db_name     = module.rds.db_name
   server_port = var.backend_service_port
   domain      = module.cloudfront.cloudfront_domain_name
+
+  # db_host     = "ec2-public-ip-address"
+  # db_port     = "3306"
+  # db_user     = "root"
+  # db_password = "Admin@1234"
+  # db_name     = "foodshop"
+  # server_port = var.backend_service_port
+  # domain      = module.cloudfront.cloudfront_domain_name
 }
 
 # Create RDS instance
-# module "rds" {
-#   source        = "./modules/rds"
-#   db_sg_id      = module.security-group.db_sg_id
-#   pri_sub_5a_id = module.vpc.pri_sub_5a_id
-#   pri_sub_6b_id = module.vpc.pri_sub_6b_id
-#   db_username   = var.db_username
-#   db_password   = var.db_password
-# }
-
+module "rds" {
+  source        = "./modules/rds"
+  db_sg_id      = module.security-group.db_sg_id
+  pri_sub_5a_id = module.vpc.pri_sub_5a_id
+  pri_sub_6b_id = module.vpc.pri_sub_6b_id
+  db_username   = var.db_username
+  db_password   = var.db_password
+}
 
 # Create cloudfront distribution 
 module "cloudfront" {
@@ -90,7 +89,6 @@ module "cloudfront" {
   additional_domain_name  = var.additional_domain_name
   project_name            = module.vpc.project_name
 }
-
 
 # Add record in route 53 hosted zone
 module "route53" {
