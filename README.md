@@ -178,7 +178,7 @@ However, I have automate all these steps using GitHub workflows.
 
     This generates a webhook URL—copy it and go to your GitHub repository settings. Navigate to Secrets > Actions > New repository secret and add the webhook URL as a `SLACK_WEBHOOK_URL` secret.
 
-    ![slack-10](https://github.com/user-attachments/assets/5d1fadb8-7dc7-4766-9f3c-a6a753eec9a8)
+    ![slack-10](https://github.com/user-attachments/assets/5274ea11-6ee9-4390-966c-5421138ebc92)
 
 
 This setup ensures that Slack notifications are sent using the act10ns/slack action, configured to run "always"—regardless of job status—sending messages to the specified Slack channel via the webhook URL stored in the secrets.
