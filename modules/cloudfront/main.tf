@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "my_distribution" {
     target_origin_id       = var.alb_domain_name
     viewer_protocol_policy = "allow-all"
     forwarded_values {
-      headers      = ["Host", "X-Forwarded-Proto", "Authorization"]
+      headers      = ["Host", "Authorization"]
       query_string = true
       cookies {
         forward = "all"
