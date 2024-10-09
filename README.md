@@ -61,3 +61,234 @@ terraform apply
 ```
 
 Type `yes`, and it will prompt you for approval.
+
+However, I have automate all these steps using GitHub workflows.
+
+## Steps to setup CICD Pipeline
+
+### Step 1: Steup EC2 Instance
+
+1. #### Create EC2 Instance
+
+    To launch an AWS EC2 instance with Ubuntu latest (24.04) using the AWS Management Console, sign in to your AWS account, access the EC2 dashboard, and click “Launch Instances.” In “Step 1,” select “Ubuntu 24.04” as the AMI, and in “Step 2,” choose “t3.small” as the instance type. Configure the instance details, storage (20 GB), tags , and security group settings according to your requirements. Review the settings, create or select a key pair for secure access, and launch the instance. Once launched, you can connect to it via SSH using the associated key pair or through management console.
+
+    ![ec2-instance]()
+
+
+2. #### Create IAM Role
+
+    To create a new role for manage AWS resource through EC2 Instance in AWS, start by navigating to the AWS Console and typing “IAM” to access the Identity and Access Management service. Click on “Roles,” then select “Create role.” Choose “AWS service” as the trusted entity and select “EC2” from the available services. Proceed to the next step and use the “Search” field to add the necessary permissions policies, such as "Administrator Access" or "EC2 Full Access", "AmazonS3FullAccess" and "EKS Full Access". After adding these permissions, click "Next." In the “Role name” field, enter “EC2 Instance Role” and complete the process by clicking “Create role”.
+
+    ![ec2-role-1](https://github.com/user-attachments/assets/781618f5-dce2-483d-a3d5-68df92d8367d)
+   
+    ![ec2-role-2](https://github.com/user-attachments/assets/6ee90b60-09c6-49d1-acda-5eb0befc9164)
+   
+    ![ec2-role-3](https://github.com/user-attachments/assets/b314bade-f007-4fe0-a144-1677bc36b4f2)
+
+
+3. #### Attach IAM Role
+
+    To assign the newly created IAM role to an EC2 instance, start by navigating to the EC2 dashboard in the AWS Console. Locate the specific instance where you want to add the role, then select the instance and choose "Actions." From the dropdown menu, go to "Security" and click on "Modify IAM role." In the next window, select the newly created role from the list and click on "Update IAM role" to apply the changes.
+
+    ![attach-role-1]()
+
+    ![attach-role-2]()
+
+
+### Step 2: Setup Self-Hosted Runner on EC2
+
+1. #### In GitHub
+
+   To set up a self-hosted GitHub Actions runner, start by navigating to your GitHub repository and clicking on Settings. Go to the Actions tab and select Runners. Click on New self-hosted runner and choose Linux as the operating system with X64 as the architecture. Follow the provided instructions to copy the commands required for installing the runner (Settings --> Actions --> Runners --> New self-hosted runner).
+
+   ![runner-1]()
+
+   ![runner-2]()
+   
+   **Download Code**
+   ```bash
+    # Create a folder
+    $ mkdir actions-runner && cd actions-runner
+
+    # Download the latest runner package
+    $ curl -o actions-runner-linux-x64-2.320.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.320.0/actions-runner-linux-x64-2.320.0.tar.gz
+
+    # Optional: Validate the hash
+    $ echo "93ac1b7ce743ee85b5d386f5c1787385ef07b3d7c728ff66ce0d3813d5f46900  actions-runner-linux-x64-2.320.0.tar.gz" | shasum -a 256 -c
+
+    # Extract the installer
+    $ tar xzf ./actions-runner-linux-x64-2.320.0.tar.gz
+   ```
+
+   **Configure Code**
+   ```bash
+    # Create the runner and start the configuration experience
+    $ ./config.sh --url https://github.com/Roni-Boiz/terraform-aws-2-tier-architecture --token <your-token>
+
+    # Last step, run it!
+    $ ./run.sh
+   ``` 
+
+2. #### In EC2 Instance
+
+   Next, connect to your EC2 instance via SSH or management console (wait till all checks passed in EC2 Instance), and paste the commands in the terminal to complete the setup and register the runner. When you enter `./config.sh` enter follwoing details:
+
+   - runner group --> keep as default
+   - name of runner --> git-workflow
+   - runner labels --> git-workflow
+   - work folder --> keep default
+
+   ![runner-3]()
+
+> [!TIP]
+> At the end you should see **Connected to GitHub** message upon successful connection
+
+### Step 3: Setup Slack
+
+1. #### Create Channel
+
+   To set up Slack notifications for your GitHub Actions workflow, start by creating a Slack channel `github-actions` if you don't have one. Go to your Slack workspace, create a channel specifically for notifications, and then click on Home.
+
+   ![slack-1](https://github.com/user-attachments/assets/ed0d7a42-81aa-4ab8-a832-b3e4a442dd88)
+
+2. #### Create App
+
+   From the Home click on Add apps than click App Directory. This opens a new tab; click on Manage then click on Build and then Create New App.
+
+   ![slack-2](https://github.com/user-attachments/assets/aa6fbecc-994b-438c-85d7-a16e2f3f8157)
+
+   ![slack-3](https://github.com/user-attachments/assets/a73b7f0f-770c-44b0-bd4f-dc63573f9258)
+
+   ![slack-4](https://github.com/user-attachments/assets/f5b01404-7258-4987-be95-69c46d5f2575)
+
+   ![slack-5](https://github.com/user-attachments/assets/54ca8cbc-978b-4d13-92cb-7a3a70909a8d)
+
+   Choose From scratch, provide a name for your app, select your workspace, and click Create. Next, enable Incoming Webhooks by setting it to "on," and click Add New Webhook to Workspace. Select the newly created channel for notifications and grant the necessary permissions.
+
+   ![slack-6](https://github.com/user-attachments/assets/7a8b0122-463d-4fbb-8533-d518eaccd930)
+   
+   ![slack-7](https://github.com/user-attachments/assets/36b8e488-b641-4dde-99f0-7d1ab46e40e7)
+   
+   ![slack-8](https://github.com/user-attachments/assets/c41984d3-4dc2-407c-8e28-c5e472f9e14e)
+   
+   ![slack-9](https://github.com/user-attachments/assets/3237e7d0-5620-4d7c-97cd-2de12da0ed5b)
+
+3. #### Create Repository Secret
+
+    This generates a webhook URL—copy it and go to your GitHub repository settings. Navigate to Secrets > Actions > New repository secret and add the webhook URL as a `SLACK_WEBHOOK_URL` secret.
+
+    ![slack-10]()
+
+This setup ensures that Slack notifications are sent using the act10ns/slack action, configured to run "always"—regardless of job status—sending messages to the specified Slack channel via the webhook URL stored in the secrets.
+
+> [!NOTE]
+> Don't forget to update the **channel name** (not the app name) you have created in all the places `.github/workflows/terrafrom.yml`, `.github/workflows/cicd.yml`, `.github/workflows/destroy.yml`.
+
+
+### Step 6: Pipeline
+
+If you go to repository actions tab, following workflows will execute in background `Script --> Deploy`. Wait till the pipeline finishes to build and deploy the application to AWS.
+
+**Script Pipeline**
+
+![script-pipeline]()
+
+**Deploy Pipeline**
+
+![terraform-pipeline]()
+
+After ppipeline finished you can access the application. Following images showcase the output results.
+
+
+**Slack Channel Output**
+
+![slack-channel-1]()
+
+> [!NOTE]
+> Under deploy message you will get the Application URL copy and paste on browser to access the application.
+
+**Application**
+
+![app-1]()
+
+![app-2]()
+
+![app-3]()
+
+![app-4]()
+
+![app-5]()
+
+**Booking Form**
+
+![1]()
+
+![2]()
+
+![3]()
+
+**Contact Form**
+
+![1]()
+
+![2]()
+
+![3]()
+
+**Comment Form**
+
+![1]()
+
+![2]()
+
+![3]()
+
+**Subscribe Form**
+
+![1]()
+
+![2]()
+
+![3]()
+
+
+### Step 7: Destroy Resources
+
+Finally if you need to destroy all the resources. For that run the `destroy pipeline` manually in github actions.
+
+**Destroy Pipeline**
+
+![destroy-pipeline](https://github.com/user-attachments/assets/09dae05b-8c5f-4e63-9081-a03c67bd18f3)
+
+**Slack Channel Output**
+
+![slack-channel-2](https://github.com/user-attachments/assets/1456cc35-2808-4ec4-9aeb-06f3fbab0f7d)
+
+
+### Step 8: Remove Self-Hosted Runner
+
+Finally, you need remove the self-hosted runner and terminate the instance.
+
+1. #### Open your repository 
+
+   Go to Settings --> Actions --> Runners --> Select your runner (git-workflow) --> Remove Runner. Then you will see steps safely remove runner from EC2 instance.
+
+   ```bash
+   # Remove the runner
+   $ ./config.sh remove --token <your-token>
+   ```
+
+2. #### Remove runner 
+    
+   Go to your EC2 instance and execute the command
+
+   ![runner-remove-3]()
+
+> [!WARNING]
+> Make sure you are in the right folder `~/actions-runner`
+
+3. **Terminate Instance**
+
+    Go to your AWS Management console --> EC2 terminate the created instance (git-workflow) and then remove any additional resources (vpc, security groups, s3 buckets, dynamodb tables, load balancers, volumes, auto scaling groups, etc)
+
+    **Verify that every resource is removed or terminated**
