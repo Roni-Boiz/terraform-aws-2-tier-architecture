@@ -100,9 +100,9 @@ However, I have automate all these steps using GitHub workflows.
 
    To set up a self-hosted GitHub Actions runner, start by navigating to your GitHub repository and clicking on Settings. Go to the Actions tab and select Runners. Click on New self-hosted runner and choose Linux as the operating system with X64 as the architecture. Follow the provided instructions to copy the commands required for installing the runner (Settings --> Actions --> Runners --> New self-hosted runner).
 
-   ![runner-1](https://github.com/user-attachments/assets/a04fce87-ff02-4522-af40-4b5a234ff208)
+   ![runner-1](https://github.com/user-attachments/assets/276217dd-f9fc-485f-929b-5841d1587f4d)
 
-   ![runner-2](https://github.com/user-attachments/assets/4eff0f8f-33aa-4352-8e20-5ca812a40f5e)
+   ![runner-2](https://github.com/user-attachments/assets/0a9d0081-6786-4eb5-bb78-192976ff1dba)
 
    
    **Download Code**
