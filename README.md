@@ -72,8 +72,7 @@ However, I have automate all these steps using GitHub workflows.
 
     To launch an AWS EC2 instance with Ubuntu latest (24.04) using the AWS Management Console, sign in to your AWS account, access the EC2 dashboard, and click “Launch Instances.” In “Step 1,” select “Ubuntu 24.04” as the AMI, and in “Step 2,” choose “t3.small” as the instance type. Configure the instance details, storage (20 GB), tags , and security group settings according to your requirements. Review the settings, create or select a key pair for secure access, and launch the instance. Once launched, you can connect to it via SSH using the associated key pair or through management console.
 
-    ![ec2-instance]()
-
+    ![ec2-instance](https://github.com/user-attachments/assets/f7bd446c-7972-4e07-a451-ad63ab0a81f6)
 
 2. #### Create IAM Role
 
@@ -90,9 +89,9 @@ However, I have automate all these steps using GitHub workflows.
 
     To assign the newly created IAM role to an EC2 instance, start by navigating to the EC2 dashboard in the AWS Console. Locate the specific instance where you want to add the role, then select the instance and choose "Actions." From the dropdown menu, go to "Security" and click on "Modify IAM role." In the next window, select the newly created role from the list and click on "Update IAM role" to apply the changes.
 
-    ![attach-role-1]()
+    ![attach-role-1](https://github.com/user-attachments/assets/41e5ece4-6543-4cf6-8ba7-84ce05652179)
 
-    ![attach-role-2]()
+    ![attach-role-2](https://github.com/user-attachments/assets/1119c1eb-3bb0-4d1a-b43b-20a14dd28ee8)
 
 
 ### Step 2: Setup Self-Hosted Runner on EC2
@@ -101,9 +100,10 @@ However, I have automate all these steps using GitHub workflows.
 
    To set up a self-hosted GitHub Actions runner, start by navigating to your GitHub repository and clicking on Settings. Go to the Actions tab and select Runners. Click on New self-hosted runner and choose Linux as the operating system with X64 as the architecture. Follow the provided instructions to copy the commands required for installing the runner (Settings --> Actions --> Runners --> New self-hosted runner).
 
-   ![runner-1]()
+   ![runner-1](https://github.com/user-attachments/assets/a04fce87-ff02-4522-af40-4b5a234ff208)
 
-   ![runner-2]()
+   ![runner-2](https://github.com/user-attachments/assets/4eff0f8f-33aa-4352-8e20-5ca812a40f5e)
+
    
    **Download Code**
    ```bash
@@ -138,7 +138,8 @@ However, I have automate all these steps using GitHub workflows.
    - runner labels --> git-workflow
    - work folder --> keep default
 
-   ![runner-3]()
+   ![runner-3](https://github.com/user-attachments/assets/fe36a16e-7f21-462e-94aa-0fbf7358c6a2)
+
 
 > [!TIP]
 > At the end you should see **Connected to GitHub** message upon successful connection
@@ -177,7 +178,8 @@ However, I have automate all these steps using GitHub workflows.
 
     This generates a webhook URL—copy it and go to your GitHub repository settings. Navigate to Secrets > Actions > New repository secret and add the webhook URL as a `SLACK_WEBHOOK_URL` secret.
 
-    ![slack-10]()
+    ![slack-10](https://github.com/user-attachments/assets/5d1fadb8-7dc7-4766-9f3c-a6a753eec9a8)
+
 
 This setup ensures that Slack notifications are sent using the act10ns/slack action, configured to run "always"—regardless of job status—sending messages to the specified Slack channel via the webhook URL stored in the secrets.
 
@@ -191,65 +193,66 @@ If you go to repository actions tab, following workflows will execute in backgro
 
 **Script Pipeline**
 
-![script-pipeline]()
+![script-pipeline](https://github.com/user-attachments/assets/d6f78774-db63-4e6f-a1a2-239c329d4000)
 
 **Deploy Pipeline**
 
-![terraform-pipeline]()
+![deploy-pipeline](https://github.com/user-attachments/assets/06522f72-0352-4ed5-9496-4981b19fea50)
 
 After ppipeline finished you can access the application. Following images showcase the output results.
 
-
 **Slack Channel Output**
 
-![slack-channel-1]()
+![slack-channel-1](https://github.com/user-attachments/assets/fb77905f-35e6-449e-8701-488220d22115)
 
 > [!NOTE]
 > Under deploy message you will get the Application URL copy and paste on browser to access the application.
 
 **Application**
 
-![app-1]()
+![app-1](https://github.com/user-attachments/assets/e96aeda8-2286-4e16-8503-425ae56b3b5d)
 
-![app-2]()
+![app-2](https://github.com/user-attachments/assets/b67f3705-8f37-4426-93a3-3d5c1228c755)
 
-![app-3]()
+![app-3](https://github.com/user-attachments/assets/2b67d848-de4b-4e96-acca-fe388dc93ae4)
 
-![app-4]()
+![app-4](https://github.com/user-attachments/assets/ef0fbc4c-2ea5-4315-a491-c27756e80bb9)
 
-![app-5]()
+![app-5](https://github.com/user-attachments/assets/a92e51d1-0d57-42a6-a8f7-525bb6ee25e4)
+
 
 **Booking Form**
 
-![1]()
+![1](https://github.com/user-attachments/assets/f6728e24-c481-4152-b62c-0bd0e5d2a7ed)
 
-![2]()
+![3](https://github.com/user-attachments/assets/941954da-0495-45f1-97a2-a2992e781ef8)
 
-![3]()
 
 **Contact Form**
 
-![1]()
+![1](https://github.com/user-attachments/assets/86232e6d-0583-4b04-819c-2d238ca8a799)
 
-![2]()
+![2](https://github.com/user-attachments/assets/c867efd3-918e-4642-85ce-2cb2364b29eb)
 
-![3]()
+![3](https://github.com/user-attachments/assets/41a6bb45-7213-433b-b7dc-9e8112bc97dd)
+
 
 **Comment Form**
 
-![1]()
+![1](https://github.com/user-attachments/assets/ec5e36b5-e1b6-44c5-82d3-783cf785811b)
 
-![2]()
+![2](https://github.com/user-attachments/assets/31c1e0cf-b81b-4899-acc1-5120f388ca1d)
 
-![3]()
+![3](https://github.com/user-attachments/assets/4fc5a3c1-aabf-4f0e-9d0f-8925383d5716)
+
 
 **Subscribe Form**
 
-![1]()
+![1](https://github.com/user-attachments/assets/9a4da51e-ef45-456d-ba69-72bd678572a0)
 
-![2]()
+![2](https://github.com/user-attachments/assets/ddd32aa5-c661-459f-ba49-e71b504d51c4)
 
-![3]()
+![3](https://github.com/user-attachments/assets/dff1d4b6-837a-4fa7-8cac-45bb70e014a8)
 
 
 ### Step 7: Destroy Resources
@@ -258,11 +261,12 @@ Finally if you need to destroy all the resources. For that run the `destroy pipe
 
 **Destroy Pipeline**
 
-![destroy-pipeline](https://github.com/user-attachments/assets/09dae05b-8c5f-4e63-9081-a03c67bd18f3)
+![destroy-pipeline](https://github.com/user-attachments/assets/884e1054-edda-4e51-acae-ee5b7778d80c)
+
 
 **Slack Channel Output**
 
-![slack-channel-2](https://github.com/user-attachments/assets/1456cc35-2808-4ec4-9aeb-06f3fbab0f7d)
+![slack-channel-2](https://github.com/user-attachments/assets/a5e0d176-8e61-4697-b779-d977cd4c2b49)
 
 
 ### Step 8: Remove Self-Hosted Runner
@@ -282,7 +286,7 @@ Finally, you need remove the self-hosted runner and terminate the instance.
     
    Go to your EC2 instance and execute the command
 
-   ![runner-remove-3]()
+   ![runner-remove](https://github.com/user-attachments/assets/84373603-eff3-44b9-ab1c-008cf6a20d44)
 
 > [!WARNING]
 > Make sure you are in the right folder `~/actions-runner`
