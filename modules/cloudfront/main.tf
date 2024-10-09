@@ -14,7 +14,7 @@ resource "aws_cloudfront_distribution" "my_distribution" {
     custom_origin_config {
       http_port              = 80
       https_port             = 443
-      origin_protocol_policy = "https-only"
+      origin_protocol_policy = "http-only"
       origin_ssl_protocols   = ["TLSv1.2"]
     }
   }
@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "my_distribution" {
     allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["GET", "HEAD", "OPTIONS"]
     target_origin_id       = var.alb_domain_name
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = "redirect-to-http"
     forwarded_values {
       headers      = ["Host", "X-Forwarded-Proto", "Authorization"]
       query_string = true
