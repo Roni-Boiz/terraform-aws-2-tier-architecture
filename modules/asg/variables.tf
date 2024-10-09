@@ -3,7 +3,7 @@ variable "ami" {
     default = "ami-0522ab6e1ddcc7055" 
 }
 variable "cpu" {
-    default = "t2.micro"
+    default = "t3.small"
 }
 variable "key_name" {}
 variable "client_sg_id" {}
