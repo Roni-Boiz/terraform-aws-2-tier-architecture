@@ -2,6 +2,8 @@
 
 ✨ This repository is created to learn and deploy a 2-tier application on aws cloud through Terraform. 
 
+<img src="https://raw.githubusercontent.com/Roni-Boiz/terraform-aws-2-tier-architecture/refs/heads/main/two-tier%20architecture.svg">
+
 ### 🏠 Let's set up the variable for our Infrastructure
 
 Create one file with the name `terraform.tfvars`
